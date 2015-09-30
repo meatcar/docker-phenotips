@@ -8,12 +8,12 @@ RUN apt-get update \
 
 VOLUME /mnt
 
-# jetty port, stop port
-EXPOSE 8080 8079
+# jetty port
+EXPOSE 8080
 # debug port, if on.
 EXPOSE 5050
 
-ADD entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/mnt/start.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
+
+ADD entrypoint.sh /entrypoint.sh
