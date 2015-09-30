@@ -2,15 +2,19 @@
 # Stop what we're doing when `docker stop` is called.
 trap '/mnt/stop.sh' SIGTERM
 
-# download phenotips if it's not already there.
+# set up phenotips
 if [ ! -x '/mnt/start.sh' ]; then 
-   URL="http://nexus.cs.toronto.edu/nexus/content/repositories/releases/org/phenotips/phenotips-standalone/$PT_VERSION/phenotips-standalone-$PT_VERSION.zip"
-   curl $URL > phenotips-standalone.zip
-   unzip -d /mnt phenotips-standalone.zip
+   # download phenotips if it's not already there.
+   if [! -f '/pt.zip' ]; then
+      URL="http://nexus.cs.toronto.edu/nexus/content/repositories/releases/org/phenotips/phenotips-standalone/$PT_VERSION/phenotips-standalone-$PT_VERSION.zip"
+      curl $URL > pt.zip
+   fi
+
+   unzip -d /mnt pt.zip
    DIR_NAME=`ls /mnt`
    cp -r /mnt/$DIR_NAME/* /mnt
    rm -rf /mnt/$DIR_NAME
-   rm -rf phenotips-standalone.zip
+   rm -rf pt.zip
 fi
 
 # turn on debugging
